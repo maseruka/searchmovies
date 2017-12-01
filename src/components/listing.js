@@ -3,16 +3,16 @@ import { View, TextInput, StyleSheet } from 'react-native';
 
 import Loader from './loader';
 import Items from './items';
+import NoRecords from './no_records';
 
 class Listing extends Component {
 	renderUI = () => {
 		const { children, showLoader, data } = this.props;
 
-		if (showLoader) {
-			return <Loader />;
-		}
+		if (showLoader) return <Loader />;
+		else if (data.length > 0) return <Items data={data} />;
 
-		return <Items />;
+		return <NoRecords />;
 	};
 
 	render() {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 			height: 1
 		},
 		shadowOpacity: 1,
-		elevation: 2,
+		elevation: 5,
 		height: 54,
 		display: 'flex',
 		justifyContent: 'center',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 	contentArea: {
 		display: 'flex',
 		flex: 1,
-		backgroundColor: '#f8f8f8'
+		backgroundColor: '#efefef'
 	}
 });
 

@@ -33,6 +33,7 @@ class Search extends Component {
 					autoCapitalize="none"
 					onChangeText={onUpdateSearchQuery}
 					value={value}
+					autoFocus={true}
 				/>
 				{this.renderClearButton()}
 			</View>

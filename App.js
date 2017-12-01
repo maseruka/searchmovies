@@ -1,9 +1,8 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import _ from 'lodash';
 
-import Start from './src/components/start';
 import Listing from './src/components/listing';
 import Search from './src/components/search';
 import { API_KEY } from './src/constants';
@@ -36,10 +35,14 @@ export default class App extends Component {
 
 	fetchMovieListings = () => {
 		if (this.state.fetchNewData) {
+			console.log('Outside');
+
 			MovieDB.searchMovie({ query: this.state.query }, (err, res) => {
 				if (!err) {
+					console.log(res);
+
 					this.setState({
-						data: res,
+						data: res.results,
 						showLoader: false,
 						fetchNewData: false
 					});
@@ -58,34 +61,22 @@ export default class App extends Component {
 		this.fetchMovieListings();
 	};
 
-	renderUI() {
-		if (this.state.query.length == 0) {
-			return (
-				<Start>
+	render() {
+		return (
+			<View style={styles.container}>
+				<Listing
+					showLoader={this.state.showLoader}
+					data={this.state.data}>
 					<Search
 						value={this.state.query}
 						onUpdateSearchQuery={query =>
 							this.updateSearchQuery(query)
 						}
-						placeholder="Search movies by title..."
+						placeholder="Type to search for movies..."
 					/>
-				</Start>
-			);
-		}
-
-		return (
-			<Listing showLoader={this.state.showLoader} data={this.state.data}>
-				<Search
-					value={this.state.query}
-					onUpdateSearchQuery={query => this.updateSearchQuery(query)}
-					placeholder="Search movies by title..."
-				/>
-			</Listing>
+				</Listing>
+			</View>
 		);
-	}
-
-	render() {
-		return <View style={styles.container}>{this.renderUI()}</View>;
 	}
 }
 
