@@ -10,41 +10,48 @@ import { API_KEY } from './src/constants';
 const MovieDB = require('moviedb')(API_KEY);
 
 export default class App extends Component {
-	state = {
-		query: '',
-		data: [],
-		showLoader: false,
-		fetchNewData: false
-	};
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			query: '',
+			data: [],
+			showLoader: false
+		};
+
+		this.fetchNewData = false;
+	}
 
 	updateSearchQuery = query => {
-		if (query.toString().length != 0)
+		if (query.toString().length != 0) {
+			this.fetchNewData = true;
+
 			this.setState({
 				query: query,
-				showLoader: true,
-				fetchNewData: true
+				showLoader: true
 			});
-		else
+		} else {
+			this.fetchNewData = false;
+
 			this.setState({
 				query: '',
 				data: [],
-				showLoader: false,
-				fetchNewData: false
+				showLoader: false
 			});
+		}
 	};
 
 	fetchMovieListings = () => {
-		if (this.state.fetchNewData) {
-			console.log('Outside');
+		if (this.fetchNewData) {
+			this.fetchNewData = false;
 
 			MovieDB.searchMovie({ query: this.state.query }, (err, res) => {
 				if (!err) {
-					console.log(res);
+					this.fetchNewData = true;
 
 					this.setState({
 						data: res.results,
-						showLoader: false,
-						fetchNewData: false
+						showLoader: false
 					});
 
 					console.log(this.state);

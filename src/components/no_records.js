@@ -6,7 +6,10 @@ const NoRecords = () => {
 	return (
 		<View style={styles.container}>
 			<Icon name="search" size={40} color="#dddddd" />
-			<Text>Start a search or try a different term!</Text>
+			<View style={styles.headingContainer}>
+				<Text style={styles.heading}>No movies!</Text>
+			</View>
+			<Text>Start a search or try a different query!</Text>
 		</View>
 	);
 };
@@ -17,11 +20,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
-	spinner: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: 80
+	headingContainer: {
+		padding: 8
+	},
+	heading: {
+		fontSize: 17,
+		fontWeight: 'bold'
 	}
 });
 
